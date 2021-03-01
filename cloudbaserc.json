@@ -2,5 +2,8 @@
     "envId": "{{env.ENV_ID}}",
     "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
     "version": "2.0",
-    "framework": {}
-  }
+    "framework": {},
+    "functionRoot": "./functions",
+    "functions": [],
+    "region": "ap-shanghai"
+}

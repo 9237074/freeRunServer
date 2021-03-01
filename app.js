@@ -41,7 +41,7 @@ app.use(bodyParser());
 // add controllers:
 app.use(controller());
 
-app.listen(4000,'127.0.0.1');
+app.listen(4000);
 console.log('app started at port 4000...');
 
 exports.appkey = '55c1e2cb05f44015e857a63138d1cf15'
