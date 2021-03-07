@@ -1,4 +1,4 @@
-const sportsRecord = require('../models/sportsRecord');
+const sportsRecord = require('../models/SportsRecord');
 const checkToken = require('../util/checkToken');
 var fn_runrecord = async (ctx, next) => {
     var

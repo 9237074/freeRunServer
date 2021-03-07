@@ -1,5 +1,5 @@
-const sportsRecord = require('../models/sportsRecord');
-const runGrade = require('../models/runGrade');
+const sportsRecord = require('../models/SportsRecord');
+const runGrade = require('../models/RunGrade');
 const Student = require('../models/Student')
 const checkToken = require('../util/checkToken');
 const checkKey = require('../util/checkKey')

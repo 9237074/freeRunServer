@@ -1,7 +1,7 @@
 //跑步记录 token type status={all vaild invaild}
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const sportsRecord = require('../models/sportsRecord');
+const sportsRecord = require('../models/SportsRecord');
 const sequelize = require('../db');
 var fn_admin_run_record = async (ctx, next) => {
     var utoken = ctx.query.token;

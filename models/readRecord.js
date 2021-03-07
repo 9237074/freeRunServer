@@ -54,6 +54,6 @@ readRecord.init({
     sequelize,
     modelName:'readRecord'
 })
-Student.belongsTo(readRecord,{as:'rR',foreignKey:'studentId',targetKey:'uid'})
-readRecord.hasOne(Student,{as:'Rs',foreignKey:'uid',targetKey:'studentId'});
+// Student.belongsTo(readRecord,{foreignKey:'studentId',targetKey:'uid'})
+// readRecord.hasOne(Student,{foreignKey:'uid',targetKey:'studentId'});
 module.exports = readRecord;

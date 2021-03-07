@@ -1,4 +1,4 @@
-const Token = require('../models/token');
+const Token = require('../models/Token');
 
 var fn_checkTokn = async(token)=>{
     var rtoken = await Token.findOne({

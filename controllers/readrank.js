@@ -1,5 +1,5 @@
 const sequelize = require('../db');
-const readGrade = require('../models/readGrade');
+const readGrade = require('../models/ReadGrade');
 const checkToken = require('../util/checkToken');
 var fn_readrank = async (ctx, next) => {
     var

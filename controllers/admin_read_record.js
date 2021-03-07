@@ -1,7 +1,7 @@
 //晨读记录 token type status={all vaild invaild}
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const readRecord = require('../models/readRecord');
+const readRecord = require('../models/ReadRecord');
 const sequelize = require('../db');
 var fn_admin_read_record = async (ctx, next) => {
     var utoken = ctx.query.token;

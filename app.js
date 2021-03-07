@@ -7,25 +7,25 @@ const controller = require('./controller');
 //数据库配置
 const sequelize = require('./db');
 const Student = require('./models/Student.js');
-const runManger = require('./models/runManger.js');
-const runRule = require('./models/runRule.js');
-const readRule = require('./models/readRule.js');
-const readTheme = require('./models/readTheme.js');
-const setting = require('./models/setting.js');
-const sportRecord = require('./models/sportsRecord.js');
+const runManger = require('./models/RunManger.js');
+const runRule = require('./models/RunRule.js');
+const readRule = require('./models/ReadRule.js');
+const readTheme = require('./models/ReadTheme.js');
+const setting = require('./models/Setting.js');
+const sportRecord = require('./models/SportsRecord.js');
 const Teacher = require('./models/Teacher.js');
-const Token = require('./models/token.js');
-const userAdmin = require('./models/userAdmin.js');
-const readRecord = require('./models/readRecord.js')
-const admin = require('./models/admin.js')
-const runGrade = require('./models/runGrade.js')
-const readGrade = require('./models/readGrade.js')
-const studentInfo = require('./models/studentInfo.js')
-const loginLog = require('./models/loginLog.js')
-sequelize.sync();
+const Token = require('./models/Token.js');
+const userAdmin = require('./models/UserAdmin.js');
+const readRecord = require('./models/ReadRecord.js')
+const admin = require('./models/Admin.js')
+const runGrade = require('./models/RunGrade.js')
+const readGrade = require('./models/ReadGrade.js')
+const studentInfo = require('./models/StudentInfo.js')
+const loginLog = require('./models/LoginLog.js')
+// sequelize.sync();
 const path = require('path')
 const static = require('koa-static')
-const staticPath = './dist'
+const staticPath = './static'
 
 //实例化koa
 const app = new Koa();

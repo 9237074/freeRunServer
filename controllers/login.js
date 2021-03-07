@@ -1,7 +1,7 @@
 const Teacher = require('../models/Teacher');
 const Student = require('../models/Student');
-const Token = require('../models/token');
-const loginLog = require('../models/loginLog')
+const Token = require('../models/Token');
+const loginLog = require('../models/LoginLog')
 const crypto =require("crypto");
 const appKey = require('../app')
 

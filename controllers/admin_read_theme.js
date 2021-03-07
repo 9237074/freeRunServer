@@ -1,6 +1,6 @@
 //晨读主题页面 adminreadtheme 参数offset
 const Student = require('../models/Student.js');
-const readTheme = require('../models/readTheme');
+const readTheme = require('../models/ReadTheme');
 const checkToken = require('../util/checkToken');
 var fn_readTheme = async (ctx, next) => {
     var utoken = ctx.query.token;

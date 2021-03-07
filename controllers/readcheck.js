@@ -1,7 +1,7 @@
 const checkToken = require('../util/checkToken');
 const checkKey = require('../util/checkKey');
-const ReadRecord = require('../models/readRecord');
-const readGrade = require('../models/readGrade')
+const ReadRecord = require('../models/ReadRecord');
+const readGrade = require('../models/ReadGrade')
 const Student = require('../models/Student');
 var fn_readcheck = async (ctx, next) => {
     var utoken = ctx.query.token;

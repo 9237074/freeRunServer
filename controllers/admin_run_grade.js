@@ -1,7 +1,7 @@
 //跑步成绩
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const runGrade = require('../models/runGrade');
+const runGrade = require('../models/RunGrade');
 const sequelize = require('../db');
 var fn_admin_run_grade = async (ctx, next) => {
     var utoken = ctx.query.token;

@@ -1,7 +1,7 @@
 //跑步规则
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const runRule = require('../models/runRule');
+const runRule = require('../models/RunRule');
 const sequelize = require('../db');
 var fn_admin_run_rule = async (ctx, next) => {
     var utoken = ctx.query.token;

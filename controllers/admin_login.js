@@ -1,6 +1,6 @@
 //admin_login
-const Admin = require('../models/admin');
-const Token = require('../models/token');
+const Admin = require('../models/Admin');
+const Token = require('../models/Token');
 const crypto = require("crypto");
 const appkey = require('../app')
 

@@ -52,6 +52,6 @@ runGrade.init({
     modelName:'runGrade'
 })
 
-Student.belongsTo(runGrade, {foreignKey: 'studentId', targetKey: 'studentId'});
-runGrade.hasOne(Student,{foreignKey:'studentId',targetKey:'studentId'});
+// Student.belongsTo(runGrade, {foreignKey: 'studentId', targetKey: 'studentId'});
+// runGrade.hasOne(Student,{foreignKey:'studentId',targetKey:'studentId'});
 module.exports = runGrade;

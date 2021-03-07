@@ -1,7 +1,7 @@
 //晨读成绩
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const readGrade = require('../models/readGrade');
+const readGrade = require('../models/ReadGrade');
 const sequelize = require('../db');
 var fn_admin_read_grade = async (ctx, next) => {
     var utoken = ctx.query.token;

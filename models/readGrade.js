@@ -39,6 +39,6 @@ readGrade.init({
     sequelize,
     modelName:'readGrade'
 })
-Student.belongsTo(readGrade,{as:'rg',foreignKey:'studentId',targetKey:'studentId'})
-readGrade.hasOne(Student,{as:'Rs',foreignKey:'studentId',targetKey:'studentId'});
+// Student.belongsTo(readGrade,{foreignKey:'studentId',targetKey:'studentId'})
+// readGrade.hasOne(Student,{foreignKey:'studentId',targetKey:'studentId'});
 module.exports = readGrade;

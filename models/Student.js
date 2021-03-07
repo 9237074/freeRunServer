@@ -1,7 +1,7 @@
 const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-const sportsRecord = require('../models/sportsRecord');
+const sportsRecord = require('./SportsRecord');
 
 class Student extends Model{}
 Student.init({
@@ -66,6 +66,6 @@ Student.init({
     modelName:'student'
 });
 
-Student.hasOne(sportsRecord,{as:'sR',foreignKey:'uid',targetKey:'user'});
-sportsRecord.belongsTo(Student,{foreignKey:'uid',targetKey:'user'});
+// Student.hasOne(sportsRecord,{foreignKey:'uid',targetKey:'user'});
+// sportsRecord.belongsTo(Student,{foreignKey:'uid',targetKey:'user'});
 module.exports = Student;

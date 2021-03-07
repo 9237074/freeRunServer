@@ -1,7 +1,7 @@
 const qrcode = require('qrcode');
 
 // qrcode.toDataURL("i am code",(err,url)=>{console.log(url)});
-const readTheme = require('../models/readTheme');
+const readTheme = require('../models/ReadTheme');
 const checkToken = require('../util/checkToken');
 var fn_qrcode = async (ctx, next) => {
     var

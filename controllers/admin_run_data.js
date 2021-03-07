@@ -1,7 +1,7 @@
 //晨跑数据
 const checkToken = require('../util/checkToken');
-const sportsRecord = require('../models/sportsRecord');
-const runGrade = require('../models/runGrade');
+const sportsRecord = require('../models/SportsRecord');
+const runGrade = require('../models/RunGrade');
 const sequelize = require('../db')
 const Student = require('../models/Student');
 var fn_admin_run_data = async (ctx, next) => {

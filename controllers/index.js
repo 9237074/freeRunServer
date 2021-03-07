@@ -1,3 +1,6 @@
+const Sequelize = require("sequelize");
+const Model = Sequelize.Model;
+
 var fn_index = async (ctx, next) => {
     ctx.response.body = `<h1>Index</h1>
         <form action="/signin" method="post">
@@ -20,7 +23,12 @@ var fn_signin = async (ctx, next) => {
     }
 };
 
+const fn_info = async(ctx, next)=>{
+    ctx.response.body = `info`
+}
+
 module.exports = {
-    'GET /': fn_index,
-    'POST /signin': fn_signin
+    'GET /index': fn_index,
+    'POST /signin': fn_signin,
+    'GET /info': fn_info
 };

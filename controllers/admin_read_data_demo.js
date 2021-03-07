@@ -1,6 +1,6 @@
 const checkToken = require('../util/checkToken');
-const ReadRecord = require('../models/readRecord');
-const readGrade = require('../models/readGrade');
+const ReadRecord = require('../models/ReadRecord');
+const readGrade = require('../models/ReadGrade');
 const sequelize = require('../db')
 const Student = require('../models/Student');
 var fn_admin_read_department = async (ctx, next) => {

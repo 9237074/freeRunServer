@@ -5,11 +5,11 @@
 //第四步，返回json
 const checkToken = require('../util/checkToken');
 const Student = require('../models/Student');
-const sportsRecord = require('../models/sportsRecord');
-const runGrade = require('../models/runGrade');
-const readRecord = require('../models/readRecord');
-const readGrade = require('../models/readGrade');
-const studentInfo = require('../models/studentInfo');
+const sportsRecord = require('../models/SportsRecord');
+const runGrade = require('../models/RunGrade');
+const readRecord = require('../models/ReadRecord');
+const readGrade = require('../models/ReadGrade');
+const studentInfo = require('../models/StudentInfo');
 const sequelize = require('../db');
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op;

@@ -1,4 +1,4 @@
-const readRecord = require('../models/readRecord');
+const readRecord = require('../models/ReadRecord');
 const checkToken = require('../util/checkToken');
 var fn_readrecord = async (ctx, next) => {
     var

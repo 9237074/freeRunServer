@@ -1,6 +1,6 @@
 //晨读主题页面 增加主题 adminreadaddtheme 参数offset change
 const Student = require('../models/Student.js');
-const readTheme = require('../models/readTheme');
+const readTheme = require('../models/ReadTheme');
 const checkToken = require('../util/checkToken');
 var fn_readAddTheme = async (ctx, next) => {
     var utoken = ctx.query.token
