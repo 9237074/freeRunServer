@@ -22,7 +22,7 @@ const runGrade = require('./models/RunGrade.js')
 const readGrade = require('./models/ReadGrade.js')
 const studentInfo = require('./models/StudentInfo.js')
 const loginLog = require('./models/LoginLog.js')
-// sequelize.sync();
+sequelize.sync();
 const path = require('path')
 const static = require('koa-static')
 const staticPath = './static'
