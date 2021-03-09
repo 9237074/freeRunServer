@@ -62,7 +62,7 @@ Teacher.init({
     }
 },{
     sequelize,
-    modelName:'teacher'
+    modelName:'Teacher'
 });
 
 module.exports = Teacher;

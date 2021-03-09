@@ -1,7 +1,7 @@
 const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-const sportsRecord = require('./SportsRecord');
+// const RunRecord = require('./RunRecord');
 
 class Student extends Model{}
 Student.init({
@@ -63,7 +63,7 @@ Student.init({
     }
 },{
     sequelize,
-    modelName:'student'
+    modelName:'Student'
 });
 
 // Student.hasOne(sportsRecord,{foreignKey:'uid',targetKey:'user'});

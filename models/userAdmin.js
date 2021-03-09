@@ -2,8 +2,8 @@ const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-class userAdmin extends Model{}
-userAdmin.init({
+class UserAdmin extends Model{}
+UserAdmin.init({
     //uid
     uid:{
         type:Sequelize.INTEGER,
@@ -45,7 +45,7 @@ userAdmin.init({
     }
 },{
     sequelize,
-    modelName:'userAdmin'
+    modelName:'UserAdmin'
 });
 
-module.exports = userAdmin;
+module.exports = UserAdmin;

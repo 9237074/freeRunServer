@@ -16,7 +16,7 @@ Setting.init({
     //
 },{
     sequelize,
-    modelName:'setting'
+    modelName:'Setting'
 });
 
 module.exports = Setting;

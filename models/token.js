@@ -23,7 +23,7 @@ Token.init({
     }
 },{
     sequelize,
-    modelName:'token'
+    modelName:'Token'
 });
 
 module.exports = Token;

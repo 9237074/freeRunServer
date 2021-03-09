@@ -2,8 +2,8 @@ const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-class readTheme extends Model{}
-readTheme.init({
+class ReadTheme extends Model{}
+ReadTheme.init({
     //晨读id
     readId:{
         type:Sequelize.INTEGER,
@@ -42,7 +42,7 @@ readTheme.init({
     }
 },{
     sequelize,
-    modelName:'readTheme'
+    modelName:'ReadTheme'
 })
 
-module.exports = readTheme;
+module.exports = ReadTheme;

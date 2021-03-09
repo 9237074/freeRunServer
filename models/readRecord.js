@@ -4,8 +4,8 @@ const Student = require('./Student');
 const Model = Sequelize.Model;
 
 //运动记录
-class readRecord extends Model{}
-readRecord.init({
+class ReadRecord extends Model{}
+ReadRecord.init({
     id:{
         type:Sequelize.INTEGER,
         primaryKey: true,//设置主键
@@ -52,8 +52,8 @@ readRecord.init({
     }
 },{
     sequelize,
-    modelName:'readRecord'
+    modelName:'ReadRecord'
 })
 // Student.belongsTo(readRecord,{foreignKey:'studentId',targetKey:'uid'})
 // readRecord.hasOne(Student,{foreignKey:'uid',targetKey:'studentId'});
-module.exports = readRecord;
+module.exports = ReadRecord;

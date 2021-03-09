@@ -4,8 +4,8 @@ const Student = require('./Student');
 const Teacher = require('./Teacher')
 const Model = Sequelize.Model;
 
-class runGrade extends Model{}
-runGrade.init({
+class RunGrade extends Model{}
+RunGrade.init({
     //uid
     uid:{
         type:Sequelize.INTEGER,
@@ -49,9 +49,9 @@ runGrade.init({
     }
 },{
     sequelize,
-    modelName:'runGrade'
+    modelName:'RunGrade'
 })
 
 // Student.belongsTo(runGrade, {foreignKey: 'studentId', targetKey: 'studentId'});
 // runGrade.hasOne(Student,{foreignKey:'studentId',targetKey:'studentId'});
-module.exports = runGrade;
+module.exports = RunGrade;

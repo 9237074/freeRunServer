@@ -2,8 +2,8 @@ const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-class runRule extends Model{}
-runRule.init({
+class RunRule extends Model{}
+RunRule.init({
     //跑区id
     runId:{
         type:Sequelize.INTEGER,
@@ -47,7 +47,7 @@ runRule.init({
     }
 },{
     sequelize,
-    modelName:'runRule'
+    modelName:'RunRule'
 })
 
-module.exports = runRule;
+module.exports = RunRule;

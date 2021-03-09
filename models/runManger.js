@@ -2,8 +2,8 @@ const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-class runManger extends Model{}
-runManger.init({
+class RunManger extends Model{}
+RunManger.init({
     //跑区ID
     runId:{
         type:Sequelize.STRING,
@@ -39,7 +39,7 @@ runManger.init({
     }
 },{
     sequelize,
-    modelName:'runManger'
+    modelName:'RunManger'
 })
 
-module.exports = runManger;
+module.exports = RunManger;

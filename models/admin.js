@@ -2,8 +2,8 @@ const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-class admin extends Model{}
-admin.init({
+class Admin extends Model{}
+Admin.init({
     //uid
     uid:{
         type:Sequelize.INTEGER,
@@ -34,11 +34,12 @@ admin.init({
     //审核状态 0是待审核、1是审核通过、2是审核
     status:{
         type:Sequelize.INTEGER,
-        allowNull:false
+        allowNull:false,
+        default: 0
     }
 },{
     sequelize,
-    modelName:'admin'
+    modelName:'Admin'
 });
 
-module.exports = admin;
+module.exports = Admin;
