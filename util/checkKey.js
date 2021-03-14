@@ -5,3 +5,5 @@ var fn_checkKey = (data)=>{
 }
 
 module.exports = fn_checkKey
+
+// console.log(fn_checkKey("123456"+"123456"+"2000"+"2000"+"10"))

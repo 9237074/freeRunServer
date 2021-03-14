@@ -1,7 +1,7 @@
 const checkToken = require('../../../util/checkToken');
 const loginLog = require('../../../models/LoginLog');
 const sequelize = require('../../../db');
-var fn_loginCheck = async(ctx,next)=>{
+const fn_loginCheck = async(ctx,next)=>{
     var token = ctx.request.query.token,
         timestamp = ctx.request.query.timestamp;
   	var id = await checkToken(token).then(a=>{return a}).catch(err=>{'logincheck.js err:',err});

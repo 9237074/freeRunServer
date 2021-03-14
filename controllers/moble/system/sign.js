@@ -1,7 +1,7 @@
 const Student = require('../../../models/Student');
 const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 
-const fn_sign = async (ctx, next) => {
+const sign = async (ctx, next) => {
 	const { user, password, studentId, name, department, profession, grade } = ctx.request.body
 	if (String(password).length < 8) {
 		throw new ParameterException("密码长度需要大于8位", 40002)
@@ -30,4 +30,4 @@ const fn_sign = async (ctx, next) => {
 	}
 }
 
-module.exports = fn_sign
+module.exports = sign

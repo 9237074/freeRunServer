@@ -41,13 +41,10 @@ RunRecord.init({
         type:Sequelize.TEXT(),
         allowNull:false
     },
-    //详情记录
-    detail:{
-        type:Sequelize.STRING
-    },
     //状态
     status:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING,
+        defaultValue: 1 // 0 是错误信息 1 是正常信息
     }
 },{
     sequelize,

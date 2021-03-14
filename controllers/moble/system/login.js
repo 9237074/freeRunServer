@@ -3,7 +3,7 @@ const Token = require('../../../models/Token');
 // const loginLog = require('../../../models/LoginLog')
 const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 
-const fn_login = async (ctx, next) => {
+const login = async (ctx, next) => {
     const { studentId, pdToken } = ctx.request.body
     const logToken = ctx.app.checkKey(studentId + pdToken + Date.now())
     const realUser = await Student.findOne({
@@ -25,6 +25,7 @@ const fn_login = async (ctx, next) => {
             token: logToken,
         },
         defaults: {
+            uid: studentId,
             token: logToken,
             time: Date.now() / 1000
         }
@@ -35,4 +36,4 @@ const fn_login = async (ctx, next) => {
     ctx.body = ctx.app.service("登录成功", realUser)
 }
 
-module.exports = fn_login
+module.exports = login

@@ -9,7 +9,6 @@ Token.init({
         type:Sequelize.INTEGER,
         primaryKey: true,//设置主键
         allowNull:false,
-        autoIncrement: true
     },
     //账号
     token:{
