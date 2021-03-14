@@ -4,9 +4,10 @@ const midCheckToken = require('../../middleware/checkToken')
 
 const Test = new Router()
 
-Test.get('/', midCheckToken, async (ctx, next) => {
-    console.log(ctx.app.keys)
-    ctx.response.body = ctx
+Test.get('/checkToken', midCheckToken, async (ctx, next) => {
+    // console.log(ctx.app.keys)
+    // const token = ctx.request.header.authorization
+    ctx.response.body = "success"
 })
 
 module.exports = Test

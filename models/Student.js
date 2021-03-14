@@ -1,7 +1,6 @@
 const sequelize = require('../db');
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-// const RunRecord = require('./RunRecord');
 
 class Student extends Model{}
 Student.init({
@@ -33,12 +32,12 @@ Student.init({
         allowNull:false
     },
     //性别
-    gender:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
+    // gender:{
+    //     type:Sequelize.STRING,
+    //     allowNull:true
+    // },
     //院系
-    Department:{
+    department:{
         type:Sequelize.STRING,
         allowNull:false
     },
@@ -54,12 +53,14 @@ Student.init({
     },
     //分数
     fraction:{
-        type:Sequelize.INTEGER
+        type:Sequelize.INTEGER,
+        defaultValue: 0
     },
     //审核状态 0是待审核、1是审核通过、2是审核
     status:{
         type:Sequelize.INTEGER,
-        allowNull:false
+        allowNull:false,
+        defaultValue: 0 // 0 未审核 1 审核通过
     }
 },{
     sequelize,

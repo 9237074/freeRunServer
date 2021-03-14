@@ -1,7 +1,7 @@
 const crypto = require('crypto');
-const appKey = require('../app.js');
-var fn_checkKey = async(data)=>{
-    return crypto.createHmac('sha256',appKey.appkey).update(data).digest('hex')
+const appKey = require('../config').key;
+var fn_checkKey = (data)=>{
+    return crypto.createHmac('sha256', appKey).update(String(String(data))).digest('hex')
 }
 
 module.exports = fn_checkKey

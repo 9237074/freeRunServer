@@ -10,7 +10,7 @@ Setting.init({
         autoIncrement: true
     },
     //学期管理
-    Semester:{
+    semester:{
         type:Sequelize.STRING
     },
     //

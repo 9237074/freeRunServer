@@ -26,7 +26,7 @@ UserAdmin.init({
         allowNull:false
     },
     //工号
-    JobNumber:{
+    jobNumber:{
         type:Sequelize.INTEGER,
         allowNull:false
     },
@@ -36,11 +36,11 @@ UserAdmin.init({
         allowNull:false
     },
     //上次登陆方式
-    LoginMethod:{
+    loginMethod:{
         type:Sequelize.STRING
     },
     //上次登陆时间
-    LoginTime:{
+    loginTime:{
         type:Sequelize.DATE
     }
 },{

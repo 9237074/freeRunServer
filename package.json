@@ -4,7 +4,8 @@
   "description": "学习Koa",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "crypto": "^1.0.1",

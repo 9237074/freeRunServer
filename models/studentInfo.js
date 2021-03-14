@@ -27,7 +27,7 @@ StudentInfo.init({
         allowNull:false
     },
     //院系
-    Department:{
+    department:{
         type:Sequelize.STRING,
         allowNull:false
     },

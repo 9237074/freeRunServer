@@ -22,7 +22,7 @@ Admin.init({
         allowNull:false
     },
     //工号
-    studentId:{
+    studentId:{ 
         type:Sequelize.INTEGER,
         allowNull:false
     },
@@ -41,5 +41,6 @@ Admin.init({
     sequelize,
     modelName:'Admin'
 });
+
 
 module.exports = Admin;

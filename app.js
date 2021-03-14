@@ -8,13 +8,36 @@ const bodyParser = require('koa-bodyparser');
 const router = require('./routes')
 //数据库配置
 const sequelize = require('./db');
-sequelize.sync();
+const initData = require('./util/initData')
+sequelize.sync({
+  // force: true
+});
+initData()
+// 处理服务器数据
+const httpService = require('./util/http-service')
+// 加密数据
+const checkKey = require('./util/checkKey')
+// 密钥
+const key = require('./config').key
+
 const path = require('path')
 const static = require('koa-static')
 const staticPath = './static'
+const errorHandler = require('./middleware/errorHandler')
 
 //实例化koa
 const app = new Koa();
+
+// 全局异常处理
+app.use(errorHandler)
+
+// logger
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  console.log(`${ctx.method} ${ctx.url} - ${ms}`);
+});
 
 app.use(static(
   path.join(__dirname, staticPath)
@@ -25,11 +48,9 @@ app.use(bodyParser());
 // console.log(router.routes())
 app.use(router.routes())
 
-app.keys = '55c1e2cb05f44015e857a63138d1cf15'
-
-app.on('error', (err, ctx) => {
-  log.error('server error', err, ctx)
-});
+app.keys = key
+app.service = httpService
+app.checkKey = checkKey
 
 app.listen(4000);
 console.log('app started at port 4000...');
