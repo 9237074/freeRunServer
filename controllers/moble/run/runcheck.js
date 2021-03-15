@@ -64,7 +64,7 @@ var runcheck = async (ctx, next) => {
 		throw new ServerException("数据库创建数据异常", 50001, e.message + ' /runcheck.js')
 	})
 	if (isCreatedGrade) {
-		ctx.response.body = ctx.app.service("跑步打卡成功", runGrade)
+		ctx.body = ctx.app.service("跑步打卡成功", runGrade)
 		return
 	}
 

@@ -1,44 +1,24 @@
-const sequelize = require('../../../db');
-const readGrade = require('../../../models/ReadGrade');
-const checkToken = require('../../../util/checkToken');
-var fn_readrank = async (ctx, next) => {
-    var
-    	utoken = ctx.request.body.token,
-        offset = ctx.request.body.offset;
-    var studentId = await checkToken(utoken).then((a)=>{return a}).catch(err =>{console.log('runrecord.js -> err',err)});
-    if(studentId == null){
-        ctx.response.body = 
-        `{"code":1,"msg":"用户不存在","data":"null"}`
-    }else if(studentId == "参数错误"){
-        ctx.response.body = 
-        `{"code":1,"msg":"验证失败","data":"null"}`
-    }else{
-        var read = await readGrade.findAll({
-         order: sequelize.literal('morningTimes DESC'),
-          		limit:10,
-          		offset:10*offset
-            }).then((a)=>{
-			var changeStudentReadRank = [];
-			for(item in a){
-			    var stu = {};
-			    console.log('item',item)
-			    var strStudentId = String(a[item].studentId);
-			    stu.studentId = strStudentId.substr(0,1)+"****"+strStudentId.substr(6,(strStudentId.length-1))
-			    console.log('strStudentId',stu.studentId)
-			    stu.duration = a[item].duration
-			    stu.fraction = a[item].fraction
-			    stu.mileage = a[item].mileage
-			    stu.morningTimes = a[item].morningTimes
-			    stu.morningmileage = a[item].morningmileage
-			    stu.name = a[item].name
-			    stu.punch = a[item].punch
-			    stu.runTimes = a[item].runTimes
-			    changeStudentReadRank.push(stu)
-			};
-			console.log('changeStudentReadRank',JSON.stringify(changeStudentReadRank))
-			return JSON.stringify(changeStudentReadRank);
-		});
-        ctx.response.body =`{"code":0,"msg":"参数正常","data":${read}}`;
-    }
+const ReadGrade = require('../../../models/ReadGrade');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+const fn_readrank = async (ctx, next) => {
+    const offset = ctx.request.body.offset || 0
+
+    const readGradeCount = await ReadGrade.findAll({
+    }).catch(e => {
+        throw new ServerException("数据库查找数据异常", 50001, e.message + ' /readrank.js')
+    })
+
+    const readGrades = await ReadGrade.findAll({
+        order: [['fraction', 'DESC']],
+        limit: 10,
+        offset: 10 * offset
+    }).catch(e => {
+        throw new ServerException("数据库查找数据异常", 50001, e.message + ' /readrank.js')
+    })
+
+    ctx.body = ctx.app.service("获取跑步排行榜数据成功", {
+		data: readGrades,
+		count: readGradeCount.length
+	})
 }
 module.exports = fn_readrank

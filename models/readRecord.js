@@ -26,7 +26,7 @@ ReadRecord.init({
       	allowNull:false
     },
     //晨读地点
-    readsite:{
+    readSite:{
         type:Sequelize.STRING,
         allowNull:false
     },

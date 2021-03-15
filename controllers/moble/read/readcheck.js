@@ -1,76 +1,44 @@
-const checkToken = require('../../../util/checkToken');
-const checkKey = require('../../../util/checkKey');
 const ReadRecord = require('../../../models/ReadRecord');
-const readGrade = require('../../../models/ReadGrade')
+const ReadGrade = require('../../../models/ReadGrade')
 const Student = require('../../../models/Student');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
 var fn_readcheck = async (ctx, next) => {
-    var utoken = ctx.query.token;
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null || data == '参数错误'){
-        ctx.response.body = `{"status":"successful","msg":"参数错误"}`
-    }else{
-        var
-            utime = ctx.query.time,
-            udate = ctx.query.date,
-            usite = ctx.query.site,
-            utheme = ctx.query.theme,
-      		upeople = ctx.query.people,
-            key = ctx.query.key,
-      		nowDate = new Date(),
-        	rkey = await checkKey(utime+udate+usite+utheme+upeople+utoken).then(a=>{return a}).catch(err=>{console.log('readcheck.js err:',err)});
-      	console.log('key:',key,'rkey:',rkey)
-        if(rkey == key){
-        	var date = nowDate.getFullYear()+'-'+(nowDate.getMonth()+1)+'-'+nowDate.getDate()
-            //去数据库找一下是否有数据，有就返回签到成功，没有就创建一个 a
-            let a = await ReadRecord.findOne({
-                where:{
-                    uid:data,
-                    readTime:utime,
-                    readDate:udate,
-                    readsite:usite,
-                    theme:utheme,
-                    peopleId:upeople,
-                    date:date
-                }
-            }).then((a)=>{return a})
-              .catch(err=>{console.log('readcheck.js err:',err)})
-            if(a == null){
-                var readRecord = await ReadRecord.create({
-                    uid:data,
-                    readTime:utime,
-                    readDate:udate,
-                    readsite:usite,
-                    theme:utheme,
-                    peopleId:upeople,
-                    date:date,
-                    status:0
-                }).then((a)=>{return a})
-                  .catch(err =>{console.log('readcheck.js err:',err)});
-                var readGradeData = await readGrade.findOne({where:{studentId:data}}).then( a =>{return a}).catch( err=>{console.log('readcheck.js err:',err)})
-                var studentData = await Student.findOne({where:{studentId:data}}).then(a=>{return a}).catch(err =>{console.log('readcheck.js err:',err)})
-                if(readGradeData == null){
-                    await readGrade.create({
-                        uid:data,
-                        name:studentData.name,
-                        studentId:data,
-                        Department:studentData.Department,
-                        morningTimes:1,
-                        duration:0,
-                        fraction:0
-                    }).then(()=>{ ctx.response.body = `{"code":0,"msg":"签到成功","data":"null"}`}).catch(err =>{console.log('readcheck.js err:',err)})
-                }else{
-                    await readGrade.update({
-                        morningTimes:Number(readGradeData.morningTimes)+1
-                    },{
-                        where:{studentId:data}
-                    }).then(()=>{ ctx.response.body = `{"code":0,"msg":"签到成功","data":"null"}`}).catch(err =>{console.log('readcheck.js err:',err)})
-                }
-            }else{
-                ctx.response.body = `{"code":0,"msg":"重复签到","data":"null"}`
-            }
-        }else{
-        	ctx.response.body = `{"code":1,"msg":"key校验失败","data":"null"}`
+    // 读书时间 读书地点 读书主题 负责人id 读书时间 加密key
+    const { readTime, readSite, theme, peopleId, date, key, studentId } = ctx.request.body
+    const checkKey = ctx.app.checkKey(readTime + readSite + theme + peopleId + date)
+
+    if (checkKey !== key) {
+        throw new ParameterException("非法数据，请正常打卡", 40002)
+    }
+    //去数据库找一下是否有数据，有就返回签到成功，没有就创建一个 a
+    let [readRecords, isCreated] = await ReadRecord.findOrCreate({
+        where: {
+            uid: studentId,
+            readTime,
+            readDate: new Date(date),
+            readSite,
+            theme,
+            peopleId,
+            date
+        },
+        defaults: {
+            uid: studentId,
+            readTime,
+            readDate: new Date(date),
+            readSite,
+            theme,
+            peopleId,
+            date
         }
+    }).catch(e => {
+		throw new ServerException("数据库更新数据异常", 50001, e.message + ' /readcheck.js')
+	})
+
+    if(isCreated){
+        ctx.body = ctx.app.service("签到成功", readRecords)
+    }else{
+        throw new InfoException("请勿重复提交数据", 20001)
     }
 }
 module.exports = fn_readcheck

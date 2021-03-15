@@ -1,26 +1,22 @@
-const readRecord = require('../../../models/ReadRecord');
-const checkToken = require('../../../util/checkToken');
+const ReadRecord = require('../../../models/ReadRecord');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 var fn_readrecord = async (ctx, next) => {
-    var
-    	utoken = ctx.request.body.token,
-        offset = ctx.request.body.offset;
-    var studentId = await checkToken(utoken).then((a)=>{return a}).catch(err =>{console.log('runrecord.js -> err',err)});
-    if(studentId == null){
-        ctx.response.body = 
-        `{"code":0,"msg":"参数错误","data":"null"}`
-    }else if(studentId == "参数错误"){
-        ctx.response.body = 
-        `{"code":0,"msg":"参数错误","data":"null"}`
-    }else{
-        var read = await readRecord.findAll({
-                where:{
-                    uid: studentId
-                },
-          		limit:10,
-          		offset:10*offset
-            }).then((a)=>{return a});
-        let b = JSON.stringify(read);
-        ctx.response.body =`{"code":0,"msg":"参数正常","data":${b}}`;
-    }
+    const { studentId } = ctx.request.body
+    const offset = ctx.request.body.offset || 0
+
+    const [readRecord, count] = await ReadRecord.findAndCountAll({
+        attributes: [ "id", "uid", "readTime", "readDate", "readsite", "theme", "peopleId", "date", "updatedAt"],
+        where: {
+            uid: studentId  
+        },
+        limit: 10,
+        offset: 10 * offset
+    }).catch(e => {
+        throw new ServerException("数据库查找数据异常", 50001, e.message + ' /runrecord.js')
+    })
+    ctx.body = ctx.app.service("获取读书记录成功", {
+        data: readRecord,
+        count
+    })
 }
 module.exports = fn_readrecord

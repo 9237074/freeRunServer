@@ -1,26 +1,23 @@
 const RunRecord = require('../../../models/runRecord');
-const checkToken = require('../../../util/checkToken');
-var fn_runrecord = async (ctx, next) => {
-    var
-    	utoken = ctx.request.body.token,
-        offset = ctx.request.body.offset;
-    var studentId = await checkToken(utoken).then((a)=>{return a}).catch(err =>{console.log('runrecord.js -> err',err)});
-    if(studentId == null){
-        ctx.response.body = 
-        `{"code":0,"msg":"参数错误","data":"null"}`
-    }else if(studentId == "参数错误"){
-        ctx.response.body = 
-        `{"code":0,"msg":"参数错误","data":"null"}`
-    }else{
-        var run = await RunRecord.findAll({
-                where:{
-                    uid: studentId
-                },
-          		limit:10,
-          		offset:10*offset
-            }).then((a)=>{return a});
-        let b = JSON.stringify(run);
-        ctx.response.body =`{"code":0,"msg":"参数正常","data":${b}}`;
-    }
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
+var runrecord = async (ctx, next) => {
+    const { studentId } = ctx.request.body
+    const offset = ctx.request.body.offset || 0
+
+    const [runRecord, count] = await RunRecord.findAndCountAll({
+        attributes: [ "id", "uid", "runTime", "spendTime", "mileage", "stepCount", "speed", "gps", "updatedAt"],
+        where: {
+            uid: studentId  
+        },
+        limit: 10,
+        offset: 10 * offset
+    }).catch(e => {
+        throw new ServerException("数据库查找数据异常", 50001, e.message + ' /runrecord.js')
+    })
+    ctx.body = ctx.app.service("获取跑步记录成功", {
+        data: runRecord,
+        count
+    })
 }
-module.exports = fn_runrecord
+module.exports = runrecord
