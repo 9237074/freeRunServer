@@ -1,77 +1,74 @@
 //晨读记录 token type status={all vaild invaild}
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
-const readRecord = require('../../../models/ReadRecord');
-const sequelize = require('../../../db');
+const ReadRecord = require('../../../models/ReadRecord');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
 var fn_admin_read_record = async (ctx, next) => {
-    var utoken = ctx.query.token;
-    var type = ctx.query.type;
-  	var status = `${ctx.query.status}`;
-  	var offset = parseInt(ctx.query.offset);
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        if(type == "student"){
-            if(status == "all" ){
-              let all = await readRecord.findAll({
-                offset:offset,
-                limit:10
-              }).then((a)=>{return JSON.stringify(a)});
-              let len =await readRecord.findAll({}).then((a)=>{return a.length});
-              // console.log(student);
-              let msg1 = `${all}`
-              ctx.response.body = `{"status":"successful","msg":${msg1},"len":${len}}`;
-            }else if(status == "valid"){
-              let valid = await readRecord.findAll({
-                where:{
-                  status:"valid",
-                },
-                offset:offset,
-                limit:10
-              }).then((a)=>{return JSON.stringify(a)});
-              // console.log(student);
-              let msg1 = `${valid}`
-              ctx.response.body = `{"status":"successful","msg":${msg1}}`;
-            }else if(status == "invalid"){
-              let invalid = await readRecord.findAll({
-                where:{
-                  status:"invalid",
-                },
-                offset:offset,
-                limit:10
-              }).then((a)=>{return JSON.stringify(a)});
-              // console.log(student);
-              let msg1 = `${invalid}`
-              ctx.response.body = `{"status":"successful","msg":${msg1}}`;
-            }else{
-              let msg1 = "参数错误"
-              ctx.response.body = `{"status":"successful","msg":"${msg1}"}`
-            }
-        }else if(type == "teacher"){
-            var teacher = await Teacher.findOne({
-                where:{
-                    uid:data
-                }
-            }).then((a)=>{return JSON.stringify(a)});
-            let msg = `{"fraction":"${teacher.fraction}"}`
-            ctx.response.body = `"{status":"successful","msg":${msg}}`;
-        }else{
-            let msg = `参数错误`
-            ctx.response.body = `{"status":"successful","msg":"${msg}"}`
-        }
-    }
+  const { status } = ctx.request.body // all valid invalid
+  const offset = ctx.request.body.osffset || 0
+
+  if (status === "all") {
+    const readRecordAll = await ReadRecord.findAll({
+      offset: offset * 10,
+      limit: 10
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_grade.js')
+    })
+    const readRecordAllCount = await ReadRecord.findAll({}).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_grade.js')
+
+    })
+    ctx.body = ctx.app.service("获取全部数据成功", {
+      data: readRecordAll,
+      count: readRecordAllCount.length
+    })
+  }
+  if (status === "valid") {
+    const readRecordValid = await ReadRecord.findAll({
+      where:{
+        status: "valid"
+      },
+      offset: offset * 10,
+      limit: 10
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_record.js')
+    })
+    const readRecordValidCount = await ReadRecord.findAll({
+      where:{
+        status: "vaild"
+      }
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_record.js')
+
+    })
+    ctx.body = ctx.app.service("获取全部数据成功", {
+      data: readRecordValid,
+      count: readRecordValidCount.length
+    })
+  }
+  if (status === "invalid") {
+    const readRecordInvalid = await ReadRecord.findAll({
+      where:{
+        status: "invalid"
+      },
+      offset: offset * 10,
+      limit: 10
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_record.js')
+    })
+    const readRecordInvalidCount = await ReadRecord.findAll({
+      where:{
+        status: "invaild"
+      }
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_record.js')
+
+    })
+    ctx.body = ctx.app.service("获取全部数据成功", {
+      data: readRecordInvalid,
+      count: readRecordInvalidCount.length
+    })
+  }
+  throw new ParameterException("参数错误", 40002)
 }
 module.exports = fn_admin_read_record

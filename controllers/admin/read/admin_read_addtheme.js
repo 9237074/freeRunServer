@@ -1,57 +1,41 @@
 //晨读主题页面 增加主题 adminreadaddtheme 参数offset change
 const Student = require('../../../models/Student.js');
-const readTheme = require('../../../models/ReadTheme');
-const checkToken = require('../../../util/checkToken');
+const ReadTheme = require('../../../models/ReadTheme');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
 var fn_readAddTheme = async (ctx, next) => {
-    var utoken = ctx.query.token
-  	var theme = ctx.query.theme
-    var readTime = ctx.query.readTime
-    var readDate = ctx.query.readDate
-    var readSite = ctx.query.readSite
-    var people = ctx.query.people
-    var change = ctx.query.change
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        if(change == 'add'){
-          console.log(`${theme},${readTime},${readDate},${readSite},${people},${change}`)
-        	await readTheme.create({
-          		theme : theme, 
-          		readTime : readTime,
-          		readDate : readDate,
-          		readSite : readSite,
-          		people : people,
-              	status : 0
-            }).then((readRecord)=>{ ctx.response.body =`{"status":"successful","msg":"添加成功"}` })
-              .catch(ctx.response.body =`{"status":"successful","msg":"添加异常"}`);
-        }else if(change == 'delete'){
-        	let ReadTheme = await readTheme.destroy({
-          		where:{
-                	theme : theme, 
-                    readTime : readTime,
-                    readDate : readDate,
-                    readSite : readSite,
-                    people : people,
-                  	status : 0
-                }
-            }).then((readRecord)=>{ ctx.response.body =`{"status":"successful","msg":"删除成功"}` })
-              .catch(ctx.response.body =`{"status":"successful","msg":"添加异常"}`);
-        }else{
-        	ctx.response.body = `{"status":"suce","msg":参数错误}`
-        }
-    }
+
+  const { theme, readTime, readDate, readSite, studentId, change } = ctx.request.body
+
+  if (change == 'add') {
+    const readTheme = await ReadTheme.create({
+      theme: theme,
+      readTime: readTime,
+      readDate: readDate,
+      readSite: readSite,
+      people: studentId,
+      status: 0
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /ranking.js')
+    })
+    ctx.body = ctx.app.service("添加主题成功", readTheme)
+  }
+  if (change == 'delete') {
+    const readTheme = await ReadTheme.destroy({
+      where: {
+        theme: theme,
+        readTime: readTime,
+        readDate: readDate,
+        readSite: readSite,
+        people: studentId,
+        status: 0
+      }
+    }).catch(e => {
+      throw new ServerException("数据库异常", 50001, e.message + ' /ranking.js')
+    })
+    ctx.body = ctx.app.service("删除主题成功", readTheme)
+  }
+
+  throw new ParameterException("参数错误", 40002)
 }
 module.exports = fn_readAddTheme

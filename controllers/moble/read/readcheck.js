@@ -12,7 +12,7 @@ var fn_readcheck = async (ctx, next) => {
         throw new ParameterException("非法数据，请正常打卡", 40002)
     }
     //去数据库找一下是否有数据，有就返回签到成功，没有就创建一个 a
-    let [readRecords, isCreated] = await ReadRecord.findOrCreate({
+    const [readRecords, isCreated] = await ReadRecord.findOrCreate({
         where: {
             uid: studentId,
             readTime,

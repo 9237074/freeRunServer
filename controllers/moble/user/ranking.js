@@ -1,36 +1,18 @@
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
-const Teacher = require('../../../models/Teacher');
-const sequelize = require('../../../db');
+
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
 var fn_ranking = async (ctx, next) => {
-    var utoken = ctx.query.token;
-    var type = ctx.query.type;
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        if(type == "student"){
-            var student = await sequelize.query(`select user,Department,fraction from students ORDER BY fraction DESC`).then((a)=>{return JSON.parse(JSON.stringify(a))[0]});
-            let msg = JSON.stringify(student)
-            console.log(`msg:${msg}`);
-            ctx.response.body = `"status":"successful","msg":"${msg}"`
-        }else if (type =="teacher"){
-            var teacher = await sequelize.query(`select user,Department,fraction from teacher ORDER BY fraction DESC`).then((a)=>{return a});
-            let msg = JSON.stringify(teacher)
-            ctx.response.body = `"status":"successful","msg":"${msg}"`
-        }
-    }
+
+    const students = await Student.findAll({
+        attributes: ["user", "department", "fraction"],
+        order: [
+            ["fraction", "desc"]
+        ]
+    }).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /ranking.js')
+    })
+
+    ctx.body = ctx.app.service("students", students)
 }
 module.exports = fn_ranking

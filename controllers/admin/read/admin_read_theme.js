@@ -1,30 +1,25 @@
 //晨读主题页面 adminreadtheme 参数offset
 const Student = require('../../../models/Student.js');
-const readTheme = require('../../../models/ReadTheme');
-const checkToken = require('../../../util/checkToken');
-var fn_readTheme = async (ctx, next) => {
-    var utoken = ctx.query.token;
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        var ReadTheme = await readTheme.findAll({
-          		attributes: ['theme', 'readTime','readDate','readSite','people']
-            }).then((readRecord)=>{return readRecord});
-        let a = JSON.stringify(ReadTheme);
-        ctx.response.body =`{"status":"successful","msg":${a}}`;
-    }
+const ReadTheme = require('../../../models/ReadTheme');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
+
+const fn_readTheme = async (ctx, next) => {
+    const offset = ctx.request.body.offset || 0
+    const readThemesCount = await ReadTheme.findAll({
+        attributes: ['theme', 'readTime', 'readDate', 'readSite', 'people']
+    }).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_theme.js')
+    })
+    const readThemes = await ReadTheme.findAll({
+        attributes: ['theme', 'readTime', 'readDate', 'readSite', 'people'],
+        offset: offset * 10,
+        limit: 10
+    }).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_theme.js')
+    })
+    ctx.body = ctx.app.service("获取主题成功", {
+        data: readThemes,
+        count: readThemesCount.length
+    })
 }
 module.exports = fn_readTheme
