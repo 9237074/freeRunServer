@@ -1,53 +1,26 @@
 //学生异常信息
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
-const Teacher = require('../../../models/Teacher');
-const sequelize = require('../../../db');
+const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 var fn_admin_errData = async (ctx, next) => {
-    var utoken = ctx.query.token;
-    var type = ctx.query.type;
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        if(type == "student"){
-            var student = await Student.findAll({ 
-              attributes: ['uid', 'studentId','name','gender','Department','profession','grade'],
-              //order:[
-              //	sequelize.fn('max', sequelize.col('uid')),
-              //],
-              limit: 10,
-              where:{
-              	status:2
-              }
-            }).then((a)=>{return JSON.stringify(a)});
-            // console.log(student);
-            let msg = `${student}`
-            ctx.response.body = `{"status":"successful","msg":${msg}}`;
-        }else if(type == "teacher"){
-            var teacher = await Teacher.findOne({
-                where:{
-                    uid:data
-                }
-            }).then((a)=>{return JSON.stringify(a)});
-            let msg = `{"fraction":"${teacher.fraction}"}`
-            ctx.response.body = `"{status":"successful","msg":${msg}}`;
-        }else{
-            let msg = `参数错误`
-            ctx.response.body = `{"status":"successful","msg":${msg}}`
+    const offset = ctx.request.body.offset || 0
+    const students = await Student.findAll({
+        attributes: ['uid', 'studentId', 'name', 'department', 'profession', 'grade'],
+        limit: 10,
+        offset: offset * 10,
+        where: {
+            status: 2
         }
-    }
+    })
+    const studentCount = await Student.findAll({
+        where: {
+            status: 2
+        }
+    }).then(res => res.length).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /admin_errData.js')
+    })
+    ctx.body = ctx.app.service("获取异常学生信息成功", {
+        data: students,
+        count: studentCount
+    })
 }
 module.exports = fn_admin_errData
