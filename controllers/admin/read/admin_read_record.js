@@ -16,12 +16,12 @@ var fn_admin_read_record = async (ctx, next) => {
     })
     const readRecordAllCount = await ReadRecord.findAll({}).catch(e => {
       throw new ServerException("数据库异常", 50001, e.message + ' /admin_read_grade.js')
-
     })
     ctx.body = ctx.app.service("获取全部数据成功", {
       data: readRecordAll,
       count: readRecordAllCount.length
     })
+    return
   }
   if (status === "valid") {
     const readRecordValid = await ReadRecord.findAll({
@@ -45,6 +45,7 @@ var fn_admin_read_record = async (ctx, next) => {
       data: readRecordValid,
       count: readRecordValidCount.length
     })
+    return
   }
   if (status === "invalid") {
     const readRecordInvalid = await ReadRecord.findAll({
@@ -68,6 +69,7 @@ var fn_admin_read_record = async (ctx, next) => {
       data: readRecordInvalid,
       count: readRecordInvalidCount.length
     })
+    return
   }
   throw new ParameterException("参数错误", 40002)
 }

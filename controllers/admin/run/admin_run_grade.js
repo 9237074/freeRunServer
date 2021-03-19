@@ -1,8 +1,6 @@
 //跑步成绩
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
 const RunGrade = require('../../../models/RunGrade');
-const sequelize = require('../../../db');
 const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 
 var fn_admin_run_grade = async (ctx, next) => {
@@ -13,7 +11,7 @@ var fn_admin_run_grade = async (ctx, next) => {
     }).catch(e => {
         throw new ServerException("数据库异常", 50001, e.message + ' /admin_run_data.js')
     })
-    const runGradesCount = await RunGrade.findAll({}).catch(e=>{
+    const runGradesCount = await RunGrade.findAll({}).then(rungrades => rungrades.length).catch(e=>{
         throw new ServerException("数据库异常", 50001, e.message + ' /admin_run_data.js')
     })
     ctx.body = ctx.app.service("获取跑步成绩数据成功", {

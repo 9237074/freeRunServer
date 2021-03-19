@@ -5,7 +5,7 @@ const errorHandler = async (ctx, next) => {
         await next();
     } catch (error) {
         if (error instanceof HttpException) {
-            console.log("捕获异常", error.message)
+            console.log("捕获异常", error.message || error)
             ctx.body = {
                 msg: error.msg,
                 errorCode: error.errorCode,

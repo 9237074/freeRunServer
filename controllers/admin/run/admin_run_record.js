@@ -23,6 +23,7 @@ var fn_admin_run_record = async (ctx, next) => {
       data: all,
       count
     })
+    return
   }
   if (status === "valid") {
     const valids = await RunRecord.findAll({
@@ -45,6 +46,7 @@ var fn_admin_run_record = async (ctx, next) => {
       data: valids,
       count
     })
+    return
   }
   if (status === "invalid") {
     const invalids = await RunRecord.findAll({
@@ -67,6 +69,7 @@ var fn_admin_run_record = async (ctx, next) => {
       data: invalids,
       count
     })
+    return
   }
   throw new ParameterException("参数错误", 40002)
 
