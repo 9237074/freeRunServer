@@ -10,6 +10,6 @@ const Moble = new Router()
 Moble.use('/read', checkToken, Read.routes())
 Moble.use('/run', checkToken, Run.routes())
 Moble.use('/system', System.routes())
-Moble.use('/user', checkToken, User.routes())
+Moble.use('/user', User.routes())
 
 module.exports = Moble

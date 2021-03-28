@@ -3,6 +3,7 @@ const { InfoException, ParameterException, ServerException } = require('../../..
 
 const sign = async (ctx, next) => {
 	const { user, password, studentId, name, department, profession, grade } = ctx.request.body
+	// console.log({user, password, studentId, name, department, profession, grade})
 	if (String(password).length < 8) {
 		throw new ParameterException("密码长度需要大于8位", 40002)
 	}

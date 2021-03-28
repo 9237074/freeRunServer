@@ -5,6 +5,7 @@ const { InfoException, ParameterException, ServerException } = require('../../..
 
 const login = async (ctx, next) => {
     const { studentId, pdToken } = ctx.request.body
+    console.log({studentId, pdToken})
     const logToken = ctx.app.checkKey(studentId + pdToken + Date.now())
     const realUser = await Student.findOne({
         attributes: ["user", "studentId", "name", "department", "profession", "grade", "fraction", "status"],
@@ -13,7 +14,7 @@ const login = async (ctx, next) => {
             password: pdToken
         }
     }).catch(e => {
-        throw new ServerException("数据库异常", 50001, e.message + ' /login.js')
+        throw new ServerException("数据库异常", 50001, e.message + ' /login0.js')
     })
 
     if(realUser === null){
@@ -25,12 +26,13 @@ const login = async (ctx, next) => {
             token: logToken,
         },
         defaults: {
-            uid: studentId,
+            studentId,
             token: logToken,
             time: Date.now() / 1000
         }
     }).catch(e => {
-        throw new ServerException("数据库异常", 50001, e.message + ' /login.js')
+        console.log(e)
+        throw new ServerException("数据库异常", 50001, e.message + ' /login1.js')
     })
     realUser.setDataValue("token", logToken)
     ctx.body = ctx.app.service("登录成功", realUser)

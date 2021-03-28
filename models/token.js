@@ -8,7 +8,12 @@ Token.init({
     uid:{
         type:Sequelize.INTEGER,
         primaryKey: true,//设置主键
+        autoIncrement: true,
         allowNull:false,
+    },
+    studentId:{
+        type:Sequelize.INTEGER,
+        allowNull:false
     },
     //账号
     token:{

@@ -14,7 +14,7 @@ const midCheckToken = async (ctx, next) => {
     if(realToken === null || realToken.token !== token){
         throw new ParameterException("非法请求", 40001)
     }
-    ctx.request.body.studentId = realToken.uid
+    ctx.request.body.studentId = realToken.studentId
     await next()
 }
 module.exports = midCheckToken

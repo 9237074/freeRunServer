@@ -1,47 +1,21 @@
 const Student = require('../../../models/Student.js');
-const readTheme = require('../../../models/ReadTheme');
-const checkToken = require('../../../util/checkToken');
+const ReadTheme = require('../../../models/ReadTheme');
 var fn_readPage = async (ctx, next) => {
-    var utoken = ctx.query.token;
-  	console.log('utoken:',utoken)
-    let data = await checkToken(utoken).then((a)=>{return a});
-    if(data == null){
-        let msg = `参数有误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else if(data == "参数错误"){
-        let msg = `参数错误`
-        ctx.response.body = 
-        `{
-            "status":"successful",
-            "msg":"${msg}"
-        }`
-    }else{
-        var ReadTheme = await readTheme.findAll({
-                //where:{
-                //    uid:`${data}`
-                //}
-          		attributes: ['theme', 'readTime','readDate','readSite','people']
-            }).then((readRecord)=>{return readRecord});
-      	/*var people = await Student.findOne({
-        	where:{
-            	studentId:ReadTheme.people
-            }
-        }).then((name)=>{return name.name});
-      	a.people = people*/
-        let a = JSON.stringify(ReadTheme);
-        ctx.response.body =`{"status":"successful","msg":${a}}`;
-    }
+    const offset = ctx.request.body.offset || 0
+    const readThemes = await ReadTheme.findAll({
+        attributes: ['theme', 'readTime', 'readDate', 'readSite', 'people'],
+        offset: offset * 10,
+        limit: 10
+    }).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /readPage.js')
+    })
+    const readThemeCount = await ReadTheme.findAll({}).then(res => res.length).catch(e => {
+        throw new ServerException("数据库异常", 50001, e.message + ' /readPage.js')
+    })
+    ctx.body = ctx.app.service("获取主题成功", {
+        data: readThemes,
+        count: readThemeCount
+    })
+
 }
 module.exports = fn_readPage
-
-// var ReadRecord = await readRecord.findAll({
-//     where:{
-//         uid:`${uid}`
-//     }
-// }).then((readRecord)=>{return readRecord});
-// let a = JSON.parse(JSON.stringify(ReadRecord)).length
-// console.log("有效条数：",a);
