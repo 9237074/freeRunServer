@@ -1,5 +1,4 @@
 //跑步规则
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
 const RunRule = require('../../../models/RunRule');
 const sequelize = require('../../../db');

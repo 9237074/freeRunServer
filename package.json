@@ -4,8 +4,7 @@
   "description": "学习Koa",
   "main": "app.js",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "nodemon app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -25,6 +24,5 @@
     "sequelize": "^5.10.1"
   },
   "author": "iCream",
-  "license": "ISC",
-  "devDependencies": {}
+  "license": "ISC"
 }

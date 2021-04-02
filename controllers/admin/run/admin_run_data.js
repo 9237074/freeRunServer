@@ -1,6 +1,5 @@
 //晨跑数据
-const checkToken = require('../../../util/checkToken');
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const RunGrade = require('../../../models/RunGrade');
 const sequelize = require('../../../db')
 const Student = require('../../../models/Student');

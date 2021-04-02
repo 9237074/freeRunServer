@@ -1,7 +1,6 @@
 //跑步记录 token type status={all vaild invaild}
-const checkToken = require('../../../util/checkToken');
 const Student = require('../../../models/Student');
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 
 const sequelize = require('../../../db');
