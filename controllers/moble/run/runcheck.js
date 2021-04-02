@@ -1,4 +1,4 @@
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const RunGrade = require('../../../models/RunGrade');
 const Student = require('../../../models/Student')
 

@@ -1,4 +1,4 @@
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const { InfoException, ParameterException, ServerException } = require('../../../util/http-exception');
 
 var runrecord = async (ctx, next) => {

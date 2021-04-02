@@ -1,4 +1,4 @@
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const checkToken = require('../../../util/checkToken');
 var fn_runpage = async (ctx, next) => {
     var utoken = ctx.query.token;
