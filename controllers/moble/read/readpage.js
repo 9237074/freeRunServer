@@ -3,7 +3,7 @@ const ReadTheme = require('../../../models/ReadTheme');
 var fn_readPage = async (ctx, next) => {
     const offset = ctx.request.body.offset || 0
     const readThemes = await ReadTheme.findAll({
-        attributes: ['theme', 'readTime', 'readDate', 'readSite', 'people'],
+        attributes: ['readId', 'theme', 'readTime', 'readDate', 'readSite', 'people'],
         offset: offset * 10,
         limit: 10
     }).catch(e => {

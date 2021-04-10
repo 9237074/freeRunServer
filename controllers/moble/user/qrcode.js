@@ -7,6 +7,7 @@ const fn_qrcode = async (ctx, next) => {
     const { offset, studentId } = ctx.request.body
 
     const readTheme = await ReadTheme.findOne({
+        attributes: ["readId","readSite", "theme", "readTime", "readDate", "people"],
         where: {
             people: studentId
         }
@@ -18,7 +19,7 @@ const fn_qrcode = async (ctx, next) => {
         throw new ParameterException("您不是负责人", 40002)
     }
 
-    const dataUrl = await qrcode.toDataURL(`${JSON.stringify(theme)}`)
+    const dataUrl = await qrcode.toDataURL(JSON.stringify(readTheme))
 
     ctx.body = ctx.app.service("登录成功", dataUrl)
 }
