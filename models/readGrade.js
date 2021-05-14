@@ -9,7 +9,8 @@ ReadGrade.init({
     //uid
     uid:{
         type:Sequelize.INTEGER,
-        primaryKey: true//设置主键
+        primaryKey: true,//设置主键
+        autoIncrement: true
     },
     //姓名
     name:{

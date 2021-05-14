@@ -1,4 +1,4 @@
-const RunRecord = require('../../../models/runRecord');
+const RunRecord = require('../../../models/RunRecord');
 const RunGrade = require('../../../models/RunGrade');
 const Student = require('../../../models/Student')
 
@@ -9,7 +9,8 @@ var runcheck = async (ctx, next) => {
 	// 跑步时间 花费时间 里程 签到点数量 速度 gps信息 详细信息 状态 检查密钥
 	const { runTime, spendTime, mileage, stepCount, speed, gps, key, studentId } = ctx.request.body
 	// 加密信息
-	const checkKey = ctx.app.checkKey(runTime + spendTime + mileage + stepCount + speed)
+	const str = `${runTime}${spendTime}${mileage}${stepCount}${speed}`
+	const checkKey = ctx.app.checkKey(str)
 	if (checkKey !== key) {
 		throw new ParameterException("非法数据，请正常打卡", 40002)
 	}
@@ -25,7 +26,7 @@ var runcheck = async (ctx, next) => {
 			mileage,
 			stepCount,
 			speed,
-			gps
+			gps: JSON.stringify(gps)
 		}
 	}).catch(e => {
 		throw new ServerException("数据库更新数据异常", 50001, e.message + ' /runcheck.js')

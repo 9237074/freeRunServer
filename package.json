@@ -4,7 +4,8 @@
   "description": "学习Koa",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "docker": "docker-compose up --build"
   },
   "dependencies": {
     "crypto": "^1.0.1",
