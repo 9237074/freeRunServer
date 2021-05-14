@@ -32,10 +32,6 @@ ReadRule.init({
     //可打卡范围
     range:{
         type:Sequelize.INTEGER
-    },
-    //更新打卡点的最小移动距离
-    miniDistance:{
-        type:Sequelize.INTEGER
     }
 },{
     sequelize,
