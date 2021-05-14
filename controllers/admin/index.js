@@ -7,6 +7,7 @@ const User = require('./user')
 
 const Admin = new Router()
 
+Admin.get('/', async ctx => ctx.response.redirect('/admin.html'))
 Admin.use('/read', Read.routes())
 Admin.use('/run', Run.routes())
 Admin.use('/system', System.routes())
